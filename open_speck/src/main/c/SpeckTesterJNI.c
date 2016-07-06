@@ -21,8 +21,8 @@
 #include <stdio.h>
 #include <string.h>
  #include <sys/time.h>
- #include "speck.h"
-#include "SpeckTesterJNI.h"
+ #include "include/speck.h"
+#include "include/SpeckTesterJNI.h"
 
 long timestamp()
 {

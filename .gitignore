@@ -17,3 +17,8 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
+
+##### Compiled filed ######
+
+*.o
+*.class

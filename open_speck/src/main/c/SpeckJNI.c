@@ -20,8 +20,8 @@
 #include <jni.h>
 #include <stdio.h>
 #include <string.h>
-#include "speck.h"
-#include "SpeckJNI.h"
+#include "include/speck.h"
+#include "include/SpeckJNI.h"
 
 /*
  * Key expansion for 32bit block size, 64bit key

@@ -18,7 +18,7 @@
  *     Julien Niset 
  */
 
-#include "speck.h"
+#include "include/speck.h"
 #include <stdlib.h>
 #include <string.h>
 
