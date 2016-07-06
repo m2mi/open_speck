@@ -1,8 +1,10 @@
 # open-speck
 
-Open source implementation of the Speck cipher. The library contains both a native C implementation for the encryption and decrytion as well as Java classes that leverage the C implementation through JNI.
+Open source implementation of the Speck block cipher. The library contains both a native C implementation as well as Java classes that leverage the C implementation through JNI.
 
 A small client is provided that publishes some basic API to validate and test the performances of the library.
+
+Speck is a family of lightweight block ciphers publicly released by the National Security Agency (NSA) in June 2013. Speck has been optimized for performance in software implementations, while its sister algorithm, Simon, has been optimized for hardware implementations. Speck is an add-rotate-xor (ARX) cipher.
 
 See https://eprint.iacr.org/2013/404.pdf for the original Simon & Speck paper.
 
