@@ -1,4 +1,4 @@
-1. Create Java class with 'native" method signature.
+1. Create Java class with 'native' method signature.
 2. Compile class to obtain '.class' file (or get .class file from target dir)
 	#> javac MyClass.java
 3. Create JNI headers and put them in 'main/c' directory:
@@ -9,4 +9,4 @@
 	#> gcc -c -I/System/Library/Frameworks/JavaVM.framework/Headers MyClass.c
 	#> gcc -c -I/System/Library/Frameworks/JavaVM.framework/Headers otherFileUsedByMyClass.c
 7. Create shared dynamic library libname:
-	#> gcc -dynamiclib -o libname.dylib MyClass.o otherFileUsedByMyClass.o -framework JavaVM
+	#> make

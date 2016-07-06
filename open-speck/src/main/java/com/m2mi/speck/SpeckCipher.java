@@ -81,12 +81,12 @@ public abstract class SpeckCipher {
 	 */
 	public SpeckCipher setKey(byte[] key) throws InvalidParameterException {
 
-		if(key.length*8 != this.keySize) {
+		if(key.length*8 < this.keySize) {
 			throw new InvalidParameterException("Invalid key size.");
 		}
 		
 		int j = 0;
-		for(int i = 0; i < key.length; i+=8) {
+		for(int i = 0; i < this.keySize/8; i+=8) {
 			System.arraycopy(key, i, this.key[j], 0, 8);
 			j++;
 		}
@@ -109,12 +109,12 @@ public abstract class SpeckCipher {
 	 */
 	public SpeckCipher setIv(byte[] iv) throws InvalidParameterException {
 		
-		if(iv.length*8 != this.blockSize) {
+		if(iv.length*8 < this.blockSize) {
 			throw new InvalidParameterException("Invalid IV size.");
 		}
 		
 		int j = 0;
-		for(int i = 0; i < iv.length; i+=8) {
+		for(int i = 0; i < this.blockSize/8; i+=8) {
 			System.arraycopy(iv, i, this.iv[j], 0, 8);
 			j++;
 		}
