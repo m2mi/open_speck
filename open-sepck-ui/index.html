@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Machine-To-Machine Intelligence">
+
+    <title>Speck</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <!--<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>-->
+        <!--<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>-->
+    <![endif]-->
+
+</head>
+
+<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header page-scroll">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+              </button>
+                <a class="page-scroll" href="#page-top"><img src="./img/m2mi_logo_small.png"></a>
+                <span style="font-size: 22px">IoT Security Suite</span>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav pull-right" style="font-size: 18px; margin-top: 15px">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a class="page-scroll" href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#performance">Performance</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#encrypt">Encrypt</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#decrypt">Decrypt</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Intro Section -->
+    <section id="intro" class="intro-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="text-left"><img src="./img/logo.png" width="85" height="85" align="left" style="margin-right:20px">The IoT Security Suite, commissioned by the Department of Homeland Security (DHS) Science and Technology Directorate (S&amp;T) under the Silicon Valley Innovation Program (SVIP), is developed by  Machine-to-Machine Intelligence  (M2Mi) Corporation and    available as open source under the Apache License. The IoT Security Suite provides an implementation of fast encryption ciphers that use minimal resources capable of operating in small IoT devices and sensors that have limited or constrained resources. In order to meet this requirement, the  IoT Security Suite uses lightweight block ciphers publicly released by the National Security Agency (NSA) in June 2013 which are part of the SIMON &amp; SPECK family of ciphers designed for both hardware and software implementations. </p>
+                    <p class="text-left">Full details of SIMON &amp; SPECK are included here: <a href="./docs/Simon_and_Speck_NSA.pdf" target="_blank">NSA Simon &amp; Speck Specification</a></p>
+                    <p class="text-left">The IoT Security Suite uses  the SPECK software implementation of the NSA ciphers. SPECK has been optimized for performance in software implementations, while its sister algorithm, SIMON, has been optimized for hardware implementations. SPECK is an add-rotate-xor (ARX) cipher.</p>
+                    <p class="text-left">SPECK supports a variety of block and key sizes. A block is always two words, but the words may be 16, 24, 32, 48 or 64 bits in size. The corresponding key is 2, 3 or 4 words. The round function consists of two rotations, adding the right word to the left word, xoring the key into the left word, then and xoring the left word to the right word. The number of rounds depends on the parameters selected, as follows: </p>
+
+                    <br>
+
+                    <table class="table">
+                        <tr>
+                            <th>Block Size (bits)</th>
+                            <th>Key Size (bits)</th>
+                            <th>Rounds</th>
+                        </tr>
+                        <tr>
+                            <td>2×16 = 32</td>
+                            <td>4×16 = 64</td>
+                            <td>22</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2" style="vertical-align: middle !important;">2×24 = 48</td>
+                            <td>3×24 = 72</td>
+                            <td>22</td>
+                        </tr>
+                        <tr>
+                            <td>4×24 = 96</td>
+                            <td>23</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2" style="vertical-align: middle !important;">2×32 = 64</td>
+                            <td>3×32 = 96</td>
+                            <td>26</td>
+                        </tr>
+                        <tr>
+                            <td>4×32 = 128</td>
+                            <td>27</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2" style="vertical-align: middle !important;">2×48 = 96</td>
+                            <td>2×48 = 96</td>
+                            <td>28</td>
+                        </tr>
+                        <tr>
+                            <td>3×48 = 144</td>
+                            <td>29</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="3" style="vertical-align: middle !important;">2×64 = 128</td>
+                            <td>2×64 = 128</td>
+                            <td>32</td>
+                        </tr>
+                        <tr>
+                            <td>3×64 = 192</td>
+                            <td>33</td>
+                        </tr>
+                        <tr>
+                            <td>4×64 = 256</td>
+                            <td>34</td>
+                        </tr>
+                    </table>
+
+                    <p class="text-left">The following application allows benchmarking the Speck cipher using different configurations. The benchmark widgets allow testing against zero padding, input data encryption and input data decryption. Results will depend on your machine's CPU.</p>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="performance" class="services-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Speck Cipher Performance Test</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="text-left">
+                        This widget allows you to test the Speck cipher against different configurations. Choose the block size, key size, vector size and mode. The test vector consists of zero padding. Test results depend on your computer's CPU.
+                    </p>
+                </div>
+            </div>
+            <br>
+            <div class="panel panel-info">
+                <div class="panel-body" style="min-height: 300px;">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>Block Size (bytes) / Key Size (bytes)</label>
+                            <select class="form-control" id="performance-block">
+                                <option value="64">64/128</option>
+                                <option value="128">128/256</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2">
+                            <label>Vector Size (MB)</label>
+                            <input class="form-control" value="64" id="performance-size">
+                        </div>
+                        <div class="col-lg-2">
+                            <label>Mode</label>
+                            <select class="form-control" id="performance-mode">
+                                <option value="cbc">CBC</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2">
+                            <button id="performance-submit" class="btn btn-info btn-large" style="margin-top: 25px;">
+                                <span id="performance-loading"><span class="glyphicon glyphicon-refresh spinning"></span> Loading...</span>
+                                <span id="performance-test">Test</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="row" id="performance-results">
+                        <div class="col-lg-12 text-left">
+                            <h3>Results</h3>
+                            <p>
+                                <h4><span id="performance-results-encryption-size"></span>MB encrypted in <span id="performance-encryption"></span>ms (<span id="performance-encryption-speed"></span> MB/s)</h4>
+                                <h4><span id="performance-results-decryption-size"></span>MB decrypted in <span id="performance-decryption"></span>ms (<span id="performance-decryption-speed"></span> MB/s)</h4>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="encrypt" class="services-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Speck Cipher Encryption Test</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="text-left">
+                        This widget allows you to test Speck encryption against different configurations. Choose the block size, key, IV, mode, and data to encrypt. You can use the result and test decryption in the widget below.
+                    </p>
+                </div>
+            </div>
+            <div class="panel panel-warning">
+                <div class="panel-body" style="min-height: 300px;">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>Block Size (bytes) / Key Size (bytes)</label>
+                            <select class="form-control" id="encryption-block">
+                                <option value="64">64/128</option>
+                                <option value="128">128/256</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Key</label>
+                            <input class="form-control" value="kKBpUHpykmrtzyNyyBd4np1ZUJUjbgYC0HCJTQKt" id="encryption-k"/>
+                        </div>
+                        <div class="col-lg-3">
+                            <label>IV</label>
+                            <input class="form-control" value="mYKzj8wnLlwLiOsjmT93YPaQFLOQIRPyMY59uFmr" id="encryption-iv"/>
+                        </div>
+                        <div class="col-lg-2">
+                            <label>Mode</label>
+                            <select class="form-control" id="encryption-mode">
+                                <option value="cbc">CBC</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label>Plain Text Data</label>
+                            <textarea class="form-control" id="encryption-data" rows="4">Sally sells sea shells by the sea shore. But if Sally sells sea shells by the sea shore then where are the sea shells Sally sells?
+                            </textarea>
+                        </div>
+                        <div class="col-lg-2">
+                            <button id="encryption-submit" class="btn btn-warning btn-large" style="margin-top: 25px;">
+                                <span id="encryption-loading"><span class="glyphicon glyphicon-refresh spinning"></span> Loading...</span>
+                                <span id="encryption-test">Encrypt</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="row" id="encryption-results">
+                        <div class="col-lg-12 text-left">
+                            <h3>Results</h3>
+                            <p>
+                                <h4>Encrypted Data: <span id="encryption-results-string"></span></h4>
+                                <h4>Key: <span id="encryption-results-key"></span></h4>
+                                <h4>IV: <span id="encryption-results-iv"></span></h4>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="decrypt" class="services-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Speck Cipher Decryption Test</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="text-left">
+                        This widget allows you to test Speck decryption against different configurations. Choose the block size, key, IV, mode, and encrypted data.
+                    </p>
+                </div>
+            </div>
+            <div class="panel panel-success">
+                <div class="panel-body" style="min-height: 300px;">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>Block Size (bytes) / Key Size (bytes)</label>
+                            <select class="form-control" id="decryption-block">
+                                <option value="64">64/128</option>
+                                <option value="128">128/256</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Key</label>
+                            <input class="form-control" value="kKBpUHpykmrtzyNyyBd4np1ZUJUjbgYC0HCJTQKt" id="decryption-k"/>
+                        </div>
+                        <div class="col-lg-3">
+                            <label>IV</label>
+                            <input class="form-control" value="mYKzj8wnLlwLiOsjmT93YPaQFLOQIRPyMY59uFmr" id="decryption-iv"/>
+                        </div>
+                        <div class="col-lg-2">
+                            <label>Mode</label>
+                            <select class="form-control" id="decryption-mode">
+                                <option value="cbc">CBC</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label>Plain Text Data</label>
+                            <textarea class="form-control" id="decryption-data" rows="4"></textarea>
+                        </div>
+                        <div class="col-lg-2">
+                            <button id="decryption-submit" class="btn btn-success btn-large" style="margin-top: 25px;">
+                                <span id="decryption-loading"><span class="glyphicon glyphicon-refresh spinning"></span> Loading...</span>
+                                <span id="decryption-test">Decrypt</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="row" id="decryption-results">
+                        <div class="col-lg-12 text-left">
+                            <h3>Results</h3>
+                            <p>
+                            <h4>Decrypted Data: <span id="decryption-results-string"></span></h4>
+                            <h4>Key: <span id="decryption-results-key"></span></h4>
+                            <h4>IV: <span id="decryption-results-iv"></span></h4>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Scrolling Nav JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/scrolling-nav.js"></script>
+
+    <script>
+        $("#performance-results").hide();
+        $("#performance-loading").hide();
+        $("#encryption-results").hide();
+        $("#encryption-loading").hide();
+        $("#decryption-results").hide();
+        $("#decryption-loading").hide();
+
+        $("#encryption-k").text("kKBpUHpykmrtzyNyyBd4np1ZUJUjbgYC0HCJTQKt");
+        $("#encryption-iv").text("mYKzj8wnLlwLiOsjmT93YPaQFLOQIRPyMY59uFmr");
+
+        $("#decryption-k").text("kKBpUHpykmrtzyNyyBd4np1ZUJUjbgYC0HCJTQKt");
+        $("#decryption-iv").text("mYKzj8wnLlwLiOsjmT93YPaQFLOQIRPyMY59uFmr");
+
+        $("#performance-submit").click(function(){
+            var key;
+            var block = $("#performance-block").val();
+            switch (block) {
+                case "64":
+                    key = 128;
+                    break;
+                case "128":
+                    key = 256;
+            }
+
+            var mode = $("#performance-mode").val();
+            var size = $("#performance-size").val();
+
+            $("#performance-loading").show();
+            $("#performance-test").hide();
+            $("#performance-results").hide();
+
+            $.ajax({
+                url: "http://localhost:9000/speck/api/v1/"+block+"/"+key+"/test?mode="+mode+"&mb="+size,
+                method: "POST",
+                context: document.body
+            }).done(function(results) {
+                $("#performance-encryption").text(results.encryption);
+                $("#performance-decryption").text(results.decryption);
+                $("#performance-encryption-speed").text((results.mb/results.encryption*1000).toFixed(1));
+                $("#performance-decryption-speed").text((results.mb/results.decryption*1000).toFixed(1));
+                $("#performance-results-encryption-size").text(results.mb);
+                $("#performance-results-decryption-size").text(results.mb);
+                $("#performance-results").fadeIn("slow");
+                $("#performance-loading").hide();
+                $("#performance-test").show();
+            });
+//
+//            window.setTimeout(function(){
+//                var results = {"encryption":1657,"mb":128,"success":true,"decryption":2892};
+//                $("#performance-encryption").text(results.encryption);
+//                $("#performance-decryption").text(results.decryption);
+//                $("#performance-encryption-speed").text((results.mb/results.encryption*1000).toFixed(1));
+//                $("#performance-decryption-speed").text((results.mb/results.decryption*1000).toFixed(1));
+//                $("#performance-results-encryption-size").text(results.mb);
+//                $("#performance-results-decryption-size").text(results.mb);
+//                $("#performance-results").fadeIn("slow");
+//                $("#performance-loading").hide();
+//                $("#performance-test").show();
+//            }, 2000);
+        });
+
+        $("#encryption-submit").click(function(){
+            var key;
+            var block = $("#encryption-block").val();
+            switch (block) {
+                case "64":
+                    key = 128;
+                    break;
+                case "128":
+                    key = 256;
+            }
+            var mode = $("#encryption-mode").val();
+            var data = $("#encryption-size").val();
+            var k = $("#encryption-k").val();
+            var iv = $("#encryption-iv").val();
+
+            $("#encryption-loading").show();
+            $("#encryption-test").hide();
+            $("#encryption-results").hide();
+
+            $.ajax({
+                url: "http://localhost:9000/speck/api/v1/"+block+"/"+key+"/encrypted?mode="+mode+"&key="+k+"&iv="+iv,
+                method: "POST",
+                data:data,
+                context: document.body
+            }).done(function(results) {
+                $("#encryption-results-string").text(results);
+                $("#encryption-results-key").text(k);
+                $("#encryption-results-iv").text(iv);
+                $("#encryption-results").fadeIn("slow");
+                $("#encryption-loading").hide();
+                $("#encryption-test").show();
+            });
+
+//            window.setTimeout(function(){
+//                var results = "ASFDFADSFADSFDSAFADSADSFFADSFADSASFD";
+//                $("#encryption-results-string").text(results);
+//                $("#encryption-results-key").text(k);
+//                $("#encryption-results-iv").text(iv);
+//                $("#encryption-results").fadeIn("slow");
+//                $("#encryption-loading").hide();
+//                $("#encryption-test").show();
+//            }, 2000);
+
+
+        });
+
+        $("#decryption-submit").click(function(){
+            var key;
+            var block = $("#decryption-block").val();
+            switch (block) {
+                case "64":
+                    key = 128;
+                    break;
+                case "128":
+                    key = 256;
+            }
+            var mode = $("#decryption-mode").val();
+            var data = $("#decryption-size").val();
+            var k = "kKBpUHpykmrtzyNyyBd4np1ZUJUjbgYC0HCJTQKt";
+            var iv = "mYKzj8wnLlwLiOsjmT93YPaQFLOQIRPyMY59uFmr";
+
+            $("#decryption-loading").show();
+            $("#decryption-test").hide();
+            $("#decryption-results").hide();
+
+            $.ajax({
+                url: "http://localhost:9000/speck/api/v1/"+block+"/"+key+"/decrypted?mode="+mode+"&key="+k+"&iv="+iv,
+                method: "POST",
+                data:data,
+                context: document.body
+            }).done(function(results) {
+                $("#decryption-results-string").text(results);
+                $("#decryption-results-key").text(k);
+                $("#decryption-results-iv").text(iv);
+                $("#decryption-results").fadeIn("slow");
+                $("#decryption-loading").hide();
+                $("#decryption-test").show();
+            });
+
+//            window.setTimeout(function(){
+//                var results = "HI !!!";
+//                $("#decryption-results-string").text(results);
+//                $("#decryption-results-key").text(k);
+//                $("#decryption-results-iv").text(iv);
+//                $("#decryption-results").fadeIn("slow");
+//                $("#decryption-loading").hide();
+//                $("#decryption-test").show();
+//            }, 2000);
+
+
+        });
+
+    </script>
+
+</body>
+
+</html>
