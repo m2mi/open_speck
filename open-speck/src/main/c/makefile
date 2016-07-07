@@ -6,6 +6,13 @@ ODIR	= obj
 OBJECTS = $(patsubst %,$(ODIR)/%,$(SOURCES:.c=.o))
 RM 		= rm -f
 
+ifndef JAVA_HOME
+	TEST := $(shell which java)
+	ifdef TEST
+		JAVA_HOME := $(shell readlink -f $(TEST) | xargs dirname | xargs dirname )
+	endif
+endif
+
 ifeq ($(OS),Windows_NT)
     CFLAGS =
 	FLAGS =  
@@ -13,8 +20,9 @@ ifeq ($(OS),Windows_NT)
 else
     UNAME_S := $(shell uname -s)
     ifeq ($(UNAME_S),Linux)
-        CFLAGS = -std=gnu99 -Iinclude
+        CFLAGS = -std=gnu99 -Iinclude -fPIC -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux
 		FLAGS = -fPIC -g #-pedantic -Wall -Wextra -ggdb3
+		#FLAGS =  -g #-pedantic -Wall -Wextra -ggdb3
 		LDFLAGS = -shared
 		TARGET = libspeck.so 
     endif
