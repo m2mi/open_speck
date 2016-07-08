@@ -1,10 +1,10 @@
 # IoT Security Suite | open-speck
 
-The IoT Security Suite, commissioned by the Department of Homeland Security (DHS) Science and Technology Directorate (S&T) under the Silicon Valley Innovation Program (SVIP), is developed by  Machine-to-Machine Intelligence  (M2Mi) Corporation and    available as open source under the Apache License. The IoT Security Suite provides an implementation of fast encryption ciphers that use minimal resources capable of operating in small IoT devices and sensors that have limited or constrained resources. In order to meet this requirement, the  IoT Security Suite uses lightweight block ciphers publicly released by the National Security Agency (NSA) in June 2013 which are part of the SIMON & SPECK family of ciphers designed for both hardware and software implementations.
+The IoT Security Suite, commissioned by the Department of Homeland Security (DHS) Science and Technology Directorate (S&T) under the Silicon Valley Innovation Program (SVIP), is developed by  Machine-to-Machine Intelligence  (M2Mi) Corporation and available as open source under the Apache License. The IoT Security Suite provides an implementation of fast encryption ciphers that use minimal resources capable of operating in small IoT devices and sensors that have limited or constrained capabilities. In order to meet this requirement, the IoT Security Suite uses lightweight block ciphers publicly released by the National Security Agency (NSA) in June 2013 which are part of the SIMON & SPECK family of ciphers designed for both hardware and software implementations.
 
-This open source project provides an implementation of the Speck block cipher to be used by IoT developpers.
+This open source project provides an implementation of the Speck block cipher to be used by IoT developers.
 
-Speck is a family of lightweight block ciphers publicly released by the National Security Agency (NSA) in June 2013. Speck has been optimized for performance in software implementations, while its sister algorithm, Simon, has been optimized for hardware implementations. Speck is an add-rotate-xor (ARX) cipher.
+Speck has been optimized for performance in software implementations, while its sister algorithm, Simon, has been optimized for hardware implementations. Speck is an add-rotate-xor (ARX) cipher.
 
 See https://eprint.iacr.org/2013/404.pdf for the original Simon & Speck paper.
 
