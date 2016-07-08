@@ -1,12 +1,17 @@
 # open-speck
 
-Open source implementation of the Speck block cipher. The library contains both a native C implementation as well as Java classes that leverage the C implementation through JNI.
-
-A small client is provided that publishes some basic API to validate and test the performances of the library.
+This open source project provides an implementation of the Speck block cipher to be used by IoT developpers.
 
 Speck is a family of lightweight block ciphers publicly released by the National Security Agency (NSA) in June 2013. Speck has been optimized for performance in software implementations, while its sister algorithm, Simon, has been optimized for hardware implementations. Speck is an add-rotate-xor (ARX) cipher.
 
 See https://eprint.iacr.org/2013/404.pdf for the original Simon & Speck paper.
+
+The project provides:
+
+1. A native C implementation of the Speck cipher.
+2. A Java public API for the Speck cipher that leverages the C implementation through JNI.
+3. A small Java client listening on port 9000 that can be used to test and manage the Java Speck API remotely.
+4. A GUI to test the performances of the Java Speck API. 
 
 ## Code Example
 
@@ -23,8 +28,10 @@ plaintext = speck.decrypt(ciphertext);
 
 ## Installation
 
-1. Compile the native C code using the Makefile.
+1. Generate the native C library using the Makefile.
 2. Generate the open-speck and open-speck-client JARs using Maven.
+3. Run the open-speck-client JAR and set the java.library.path to the directory containing the native library.
+4. Load the test UI by running the index.html file in a browser.
 
 ## Contribute
 
