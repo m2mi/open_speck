@@ -3,9 +3,7 @@
   <artifactId>open_speck-parent</artifactId>
   <packaging>pom</packaging>
   <modules>
-  	
-  	
-  	<module>open_speck</module>
+  	<module>open-speck</module>
   	<module>open-speck-client</module>
   </modules>
   <groupId>com.m2mi.speck</groupId>
