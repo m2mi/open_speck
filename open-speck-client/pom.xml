@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>open_speck-client</artifactId>
+  <artifactId>open-speck-client</artifactId>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
@@ -62,20 +62,20 @@
   		<version>1.2.16</version>
   	</dependency>
   	<dependency>
-  		<groupId>com.m2mi.speck</groupId>
-  		<artifactId>open_speck</artifactId>
-  		<version>1.0-SNAPSHOT</version>
-  	</dependency>
-  	<dependency>
   		<groupId>com.fasterxml.jackson.jaxrs</groupId>
   		<artifactId>jackson-jaxrs-json-provider</artifactId>
   		<version>2.7.5</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.m2mi.speck</groupId>
+  		<artifactId>open-speck</artifactId>
+  		<version>1.0-SNAPSHOT</version>
   	</dependency>
   </dependencies>
   <parent>
   	<groupId>com.m2mi.speck</groupId>
   	<version>1.0-SNAPSHOT</version>
   	<relativePath>../pom.xml</relativePath>
-  	<artifactId>open_speck-parent</artifactId>
+  	<artifactId>open-speck-parent</artifactId>
   </parent>
 </project>
