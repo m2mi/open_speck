@@ -395,8 +395,7 @@
 
             $.ajax({
                 url: "http://localhost:9000/speck/api/v1/"+block+"/"+key+"/test?mode="+mode+"&mb="+size,
-                method: "POST",
-                context: document.body
+                method: "GET"
             }).done(function(results) {
                 $("#performance-encryption").text(results.encryption);
                 $("#performance-decryption").text(results.decryption);
@@ -408,19 +407,7 @@
                 $("#performance-loading").hide();
                 $("#performance-test").show();
             });
-//
-//            window.setTimeout(function(){
-//                var results = {"encryption":1657,"mb":128,"success":true,"decryption":2892};
-//                $("#performance-encryption").text(results.encryption);
-//                $("#performance-decryption").text(results.decryption);
-//                $("#performance-encryption-speed").text((results.mb/results.encryption*1000).toFixed(1));
-//                $("#performance-decryption-speed").text((results.mb/results.decryption*1000).toFixed(1));
-//                $("#performance-results-encryption-size").text(results.mb);
-//                $("#performance-results-decryption-size").text(results.mb);
-//                $("#performance-results").fadeIn("slow");
-//                $("#performance-loading").hide();
-//                $("#performance-test").show();
-//            }, 2000);
+
         });
 
         $("#encryption-submit").click(function(){
@@ -455,17 +442,6 @@
                 $("#encryption-test").show();
             });
 
-//            window.setTimeout(function(){
-//                var results = "ASFDFADSFADSFDSAFADSADSFFADSFADSASFD";
-//                $("#encryption-results-string").text(results);
-//                $("#encryption-results-key").text(k);
-//                $("#encryption-results-iv").text(iv);
-//                $("#encryption-results").fadeIn("slow");
-//                $("#encryption-loading").hide();
-//                $("#encryption-test").show();
-//            }, 2000);
-
-
         });
 
         $("#decryption-submit").click(function(){
@@ -499,17 +475,6 @@
                 $("#decryption-loading").hide();
                 $("#decryption-test").show();
             });
-
-//            window.setTimeout(function(){
-//                var results = "HI !!!";
-//                $("#decryption-results-string").text(results);
-//                $("#decryption-results-key").text(k);
-//                $("#decryption-results-iv").text(iv);
-//                $("#decryption-results").fadeIn("slow");
-//                $("#decryption-loading").hide();
-//                $("#decryption-test").show();
-//            }, 2000);
-
 
         });
 
