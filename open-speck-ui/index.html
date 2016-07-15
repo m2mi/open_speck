@@ -73,12 +73,17 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <p class="text-left"><img src="./img/logo.png" width="85" height="85" align="left" style="margin-right:20px">The IoT Security Suite, commissioned by the Department of Homeland Security (DHS) Science and Technology Directorate (S&amp;T) under the Silicon Valley Innovation Program (SVIP), is developed by Machine-to-Machine Intelligence (M2Mi) Corporation and available as open source under the Apache License. The IoT Security Suite provides an implementation of fast encryption ciphers that use minimal resources capable of operating in small IoT devices and sensors that have limited or constrained capabilities. In order to meet this requirement, the IoT Security Suite uses lightweight block ciphers publicly released by the National Security Agency (NSA) in June 2013 which are part of the SIMON &amp; SPECK family of ciphers designed for both hardware and software implementations. </p>
+                    <p class="text-left"><img src="./img/logo.png" width="85" height="85" align="left" style="margin-right:20px">The IoT Security Suite, commissioned by the Department of Homeland Security (DHS) Science and Technology Directorate (S&amp;T) under the Silicon Valley Innovation Program (SVIP), is developed by  Machine-to-Machine Intelligence  (M2Mi) Corporation and    available as open source under the Apache License. The IoT Security Suite provides an implementation of fast encryption ciphers that use minimal resources capable of operating in small IoT devices and sensors that have limited or constrained resources. In order to meet this requirement, the  IoT Security Suite uses lightweight block ciphers publicly released by the National Security Agency (NSA) in June 2013 which are part of the SIMON &amp; SPECK family of ciphers designed for both hardware and software implementations. </p>
                     <p class="text-left">Full details of SIMON &amp; SPECK are included here: <a href="./docs/Simon_and_Speck_NSA.pdf" target="_blank">NSA Simon &amp; Speck Specification</a></p>
-                    <p class="text-left">The IoT Security Suite uses the SPECK software implementation of the NSA ciphers. SPECK has been optimized for performance in software implementations, while its sister algorithm, SIMON, has been optimized for hardware implementations. SPECK is an add-rotate-xor (ARX) cipher.</p>
+                    <p class="text-left">The IoT Security Suite uses  the SPECK software implementation of the NSA ciphers. SPECK has been optimized for performance in software implementations, while its sister algorithm, SIMON, has been optimized for hardware implementations. SPECK is an add-rotate-xor (ARX) cipher.</p>
                     <p class="text-left">SPECK supports a variety of block and key sizes. A block is always two words, but the words may be 16, 24, 32, 48 or 64 bits in size. The corresponding key is 2, 3 or 4 words. The round function consists of two rotations, adding the right word to the left word, xoring the key into the left word, then and xoring the left word to the right word. The number of rounds depends on the parameters selected, as follows: </p>
+                </div>
+            </div>
 
-                    <br>
+            <br>
+
+            <div class="row">
+                <div class="col-lg-12">
 
                     <table class="table">
                         <tr>
@@ -133,8 +138,13 @@
                         </tr>
                     </table>
 
-                    <p class="text-left">The following application allows benchmarking the Speck cipher using different configurations. The benchmark widgets allow testing against zero padding, input data encryption and input data decryption. Results will depend on your machine's CPU.</p>
 
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="text-left">The following application allows benchmarking the Speck cipher using different configurations. The benchmark widgets allow testing against zero padding, input data encryption and input data decryption. Results will depend on your machine's CPU.</p>
                 </div>
             </div>
         </div>
@@ -247,8 +257,7 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <label>Plain Text Data</label>
-                            <textarea class="form-control" id="encryption-data" rows="4">Sally sells sea shells by the sea shore. But if Sally sells sea shells by the sea shore then where are the sea shells Sally sells?
-                            </textarea>
+                            <textarea class="form-control" id="encryption-data" rows="4">Hello world!</textarea>
                         </div>
                         <div class="col-lg-2">
                             <button id="encryption-submit" class="btn btn-warning btn-large" style="margin-top: 25px;">
@@ -321,7 +330,7 @@
                     <br>
                     <div class="row">
                         <div class="col-lg-4">
-                            <label>Plain Text Data</label>
+                            <label>Cipher Text Data</label>
                             <textarea class="form-control" id="decryption-data" rows="4"></textarea>
                         </div>
                         <div class="col-lg-2">
@@ -396,7 +405,8 @@
             $.ajax({
                 url: "http://localhost:9000/speck/api/v1/"+block+"/"+key+"/test?mode="+mode+"&mb="+size,
                 method: "GET"
-            }).done(function(results) {
+            })
+            .success(function(results) {
                 $("#performance-encryption").text(results.encryption);
                 $("#performance-decryption").text(results.decryption);
                 $("#performance-encryption-speed").text((results.mb/results.encryption*1000).toFixed(1));
@@ -406,7 +416,11 @@
                 $("#performance-results").fadeIn("slow");
                 $("#performance-loading").hide();
                 $("#performance-test").show();
-            });
+            })
+            .error(function(){
+                $("#performance-loading").hide();
+                $("#performance-test").show();
+            })
 
         });
 
@@ -432,15 +446,23 @@
             $.ajax({
                 url: "http://localhost:9000/speck/api/v1/"+block+"/"+key+"/encrypted?mode="+mode+"&key="+k+"&iv="+iv,
                 method: "POST",
+                contentType: "application/json",
+                dataType: "text",
                 data:JSON.stringify(data)
-            }).done(function(results) {
+            })
+            .done(function(results) {
                 $("#encryption-results-string").text(results);
                 $("#encryption-results-key").text(k);
                 $("#encryption-results-iv").text(iv);
                 $("#encryption-results").fadeIn("slow");
                 $("#encryption-loading").hide();
                 $("#encryption-test").show();
-            });
+            })
+            .error(function(error){
+                $("#encryption-loading").hide();
+                $("#encryption-test").show();
+            })
+
 
         });
 
@@ -466,15 +488,22 @@
             $.ajax({
                 url: "http://localhost:9000/speck/api/v1/"+block+"/"+key+"/decrypted?mode="+mode+"&key="+k+"&iv="+iv,
                 method: "POST",
-                data:JSON.stringify(data)
-            }).done(function(results) {
+                data: data,
+                contentType: "application/json",
+                dataType: "text"
+            })
+            .success(function(results) {
                 $("#decryption-results-string").text(results);
                 $("#decryption-results-key").text(k);
                 $("#decryption-results-iv").text(iv);
                 $("#decryption-results").fadeIn("slow");
                 $("#decryption-loading").hide();
                 $("#decryption-test").show();
-            });
+            })
+            .error(function(){
+                $("#decryption-loading").hide();
+                $("#decryption-test").show();
+            })
 
         });
 
