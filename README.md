@@ -30,10 +30,43 @@ plaintext = speck.decrypt(ciphertext);
 
 ## Installation
 
-1. Generate the native C library using the Makefile.
-2. Generate the open-speck and open-speck-client JARs using Maven.
-3. Run the open-speck-client JAR and set the java.library.path to the directory containing the native library.
-4. Load the test UI by running the index.html file in a browser.
+This project relies on having Maven, Java, C and Make available for compiling and building the code in the project.
+
+1. Check out the code from github. For example:
+
+   git clone https://github.com/team-m2mi/open-speck.git
+
+   After downloading the code, change directory into the downloaded project.
+
+2. Set the JAVA_HOME environment variable to point to your JAVA JDK/JRE directory. For example:
+
+   export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_73
+   
+   In this example the JAVA jdk is installed in the /usr/lib/jvm/jdk1.8.0_73 directory. Yours likely will be in a different location.
+
+3. Generate the native C library using the Makefile. The makefile can be found in open-speck/src/main/c directory.
+
+   cd open-speck/src/main/c
+   make
+   
+   Afterwards set the LD_LIBRARY_PATH to point to the newly created runtime library. This variable is used to indicate where runtime libraries can be found that are not part of the operating system. For example:
+   
+   export LD_LIBRARY_PATH=/home/wbathurs/open-speck/open-speck/src/main/c
+   
+4. Generate the open-speck and open-speck-client JARs using Maven. Move back up to the top level directory of open-speck and issue the package command:
+
+   mvn package
+5. Run the open-speck-client JAR and set the java.library.path to the directory containing the native library.
+
+   java -Djava.library.path=$LD_LIBRARY_PATH -jar ./open-speck-client/target/open_speck-client-1.0.SNAPSHOT.jar 
+   
+6. Load the test UI by running the index.html file in a browser.
+
+   The open-speck-ui directory will need to be copied into your web servers content directory. For example, in LINUX this directory is normally /var/www/html (Apache). Then one would copy it over to that directory:
+   
+   cp -r open-speck-ui /var/www/html
+   
+   Make sure you have permissions to copy the files to the target directory.
 
 ## Contribute
 
