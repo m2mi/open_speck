@@ -434,7 +434,7 @@
                     key = 256;
             }
             var mode = $("#encryption-mode").val();
-            var data = $("#encryption-size").val();
+            var data = $("#encryption-data").val();
             var k = $("#encryption-k").val();
             var iv = $("#encryption-iv").val();
 
@@ -445,8 +445,7 @@
             $.ajax({
                 url: "http://localhost:9000/speck/api/v1/"+block+"/"+key+"/encrypted?mode="+mode+"&key="+k+"&iv="+iv,
                 method: "POST",
-                data:data,
-                context: document.body
+                data:JSON.stringify(data)
             }).done(function(results) {
                 $("#encryption-results-string").text(results);
                 $("#encryption-results-key").text(k);
@@ -480,7 +479,7 @@
                     key = 256;
             }
             var mode = $("#decryption-mode").val();
-            var data = $("#decryption-size").val();
+            var data = $("#decryption-data").val();
             var k = "kKBpUHpykmrtzyNyyBd4np1ZUJUjbgYC0HCJTQKt";
             var iv = "mYKzj8wnLlwLiOsjmT93YPaQFLOQIRPyMY59uFmr";
 
@@ -491,8 +490,7 @@
             $.ajax({
                 url: "http://localhost:9000/speck/api/v1/"+block+"/"+key+"/decrypted?mode="+mode+"&key="+k+"&iv="+iv,
                 method: "POST",
-                data:data,
-                context: document.body
+                data:JSON.stringify(data)
             }).done(function(results) {
                 $("#decryption-results-string").text(results);
                 $("#decryption-results-key").text(k);
