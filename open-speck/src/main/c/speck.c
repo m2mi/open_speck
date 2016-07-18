@@ -14,8 +14,12 @@
  * limitations under the License.
  *
  * Contributors:
- *     Andrew Whaley    
  *     Julien Niset 
+ *     Louis-Philippe Lamoureux
+ *     William Bathurst
+ *     Peter Havart-Simkin
+ *     Geoff Barnard
+ *     Andrew Whaley
  */
 
 #include "include/speck.h"
