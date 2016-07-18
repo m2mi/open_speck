@@ -15,6 +15,10 @@
  *
  * Contributors:
  *     Julien Niset 
+ *     Louis-Philippe Lamoureux
+ *     William Bathurst
+ *     Peter Havart-Simkin
+ *     Geoff Barnard
  *     Andrew Whaley    
  */
 #include <jni.h>
