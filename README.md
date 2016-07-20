@@ -2,9 +2,9 @@
 
 The IoT Security Suite, commissioned by the Department of Homeland Security (DHS) Science and Technology Directorate (S&T) under the Silicon Valley Innovation Program (SVIP), is developed by  Machine-to-Machine Intelligence  (M2Mi) Corporation and available as open source under the Apache License. The IoT Security Suite provides an implementation of fast encryption ciphers that use minimal resources capable of operating in small IoT devices and sensors that have limited or constrained capabilities. In order to meet this requirement, the IoT Security Suite uses lightweight block ciphers publicly released by the National Security Agency (NSA) in June 2013 which are part of the SIMON & SPECK family of ciphers designed for both hardware and software implementations.
 
-This open source project provides an implementation of the Speck block cipher to be used by IoT developers.
-
 Speck has been optimized for performance in software implementations, while its sister algorithm, Simon, has been optimized for hardware implementations. Speck is an add-rotate-xor (ARX) cipher.
+
+This open source project provides an implementation of the Speck block cipher to be used by IoT developers.
 
 See https://eprint.iacr.org/2013/404.pdf for the original Simon & Speck paper.
 
@@ -12,10 +12,34 @@ The project provides:
 
 1. A native C implementation of the Speck cipher.
 2. A Java public API for the Speck cipher that leverages the C implementation through JNI.
-3. A small Java client listening on port 9000 that can be used to test and manage the Java Speck API remotely.
+3. A small Java client (Lightweight Speck Client) listening on port 9000 that can be used to test and manage the Java Speck API.
 4. A GUI to test the performances of the Java Speck API. 
 
-## Code Example
+You can see a video of the test GUI running on one of M2Mi's servers here:  https://youtu.be/MIapwQ2GBYw 
+
+The Speck ciphers can be used directly from C or can be called from C++ or you can use the Java Lightweight Speck Client.  
+
+## Code Example using C, C++ and Python  
+
+The Speck code is written in C and exposed as a dynamically linked library libspeck.so. This library can be linked to dynamically by C and C++ code by using the LD_LIBRARY_PATH to indicate the libraries location. For example:
+
+export LD_LIBRARY_PATH=/home/dev/open-speck/open-speck/src/main/c
+
+where the directory /home/dev/open-speck/open-speck/src/main/c contains the file libspeck.so.
+
+The library has a number of functions that can be called to perform encryption and decryption. For example:
+
+size_t speck_64_128_cbc_encrypt(uint64_t k1, uint64_t k2, uint64_t iv, void * plaintext, void * ciphertext, size_t length)
+
+size_t speck_64_128_cbc_decrypt(uint64_t k1, uint64_t k2, uint64_t iv, void * ciphertext, void * plaintext, size_t length)
+
+These functions would be called from programs to use the Speck code. If you are not using C, they can still be called from other languages. For example:
+
+•	Python: https://docs.python.org/2/extending/extending.html
+•	C++: http://www.thegeekstuff.com/2013/01/mix-c-and-cpp/
+
+
+## Code Example Using the Java Lightweight Speck Client
 
 ```Java
 byte[] key, iv, plaintext, ciphertext;
@@ -28,7 +52,7 @@ ciphertext = speck.encrypt(plaintext);
 plaintext = speck.decrypt(ciphertext);
 ```
 
-## Installation
+## Installation Using the Java Lightweight Speck Client
 
 This project relies on having Maven, Java, C and Make available for compiling and building the code in the project.
 
