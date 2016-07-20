@@ -28,14 +28,15 @@ export LD_LIBRARY_PATH=/home/dev/open-speck/open-speck/src/main/c
 where the directory /home/dev/open-speck/open-speck/src/main/c contains the file libspeck.so.
 
 The library has a number of functions that can be called to perform encryption and decryption. For example:
-
+```
 size_t speck_64_128_cbc_encrypt(uint64_t k1, uint64_t k2, uint64_t iv, void * plaintext, void * ciphertext, size_t length)
 
 size_t speck_64_128_cbc_decrypt(uint64_t k1, uint64_t k2, uint64_t iv, void * ciphertext, void * plaintext, size_t length)
-
+```
 These functions would be called from programs to use the Speck code. If you are not using C, they can still be called from other languages. For example:
 
 Python: https://docs.python.org/2/extending/extending.html
+
 C++: http://www.thegeekstuff.com/2013/01/mix-c-and-cpp/
 
 
