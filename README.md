@@ -35,8 +35,8 @@ size_t speck_64_128_cbc_decrypt(uint64_t k1, uint64_t k2, uint64_t iv, void * ci
 
 These functions would be called from programs to use the Speck code. If you are not using C, they can still be called from other languages. For example:
 
-•	Python: https://docs.python.org/2/extending/extending.html
-•	C++: http://www.thegeekstuff.com/2013/01/mix-c-and-cpp/
+Python: https://docs.python.org/2/extending/extending.html
+C++: http://www.thegeekstuff.com/2013/01/mix-c-and-cpp/
 
 
 ## Code Example Using the Java Lightweight Speck Client
