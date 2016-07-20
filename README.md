@@ -19,7 +19,7 @@ You can see a video of the test GUI running on one of M2Mi's servers here:  http
 
 The Speck ciphers can be used directly from C or can be called from C++ or you can use the Java Lightweight Speck Client.  
 
-## Code Example using C, C++ and Python  
+## Code Example Using C, C++ and Python  
 
 The Speck code is written in C and exposed as a dynamically linked library libspeck.so. This library can be linked to dynamically by C and C++ code by using the LD_LIBRARY_PATH to indicate the libraries location. For example:
 
@@ -35,9 +35,9 @@ size_t speck_64_128_cbc_decrypt(uint64_t k1, uint64_t k2, uint64_t iv, void * ci
 ```
 These functions would be called from programs to use the Speck code. If you are not using C, they can still be called from other languages. For example:
 
-Python: https://docs.python.org/2/extending/extending.html
-
 C++: http://www.thegeekstuff.com/2013/01/mix-c-and-cpp/
+
+Python: https://docs.python.org/2/extending/extending.html
 
 
 ## Code Example Using the Java Lightweight Speck Client
