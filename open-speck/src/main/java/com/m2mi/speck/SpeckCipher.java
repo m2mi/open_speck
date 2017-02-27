@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  * Contributors:
- *     Julien Niset 
+ *     Julien Niset
  *     Louis-Philippe Lamoureux
  *     William Bathurst
  *     Peter Havart-Simkin
@@ -24,12 +24,13 @@
 package com.m2mi.speck;
 
 import java.security.InvalidParameterException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Abstract class for a Speck Cipher.
  * <p>
  * Implementations may vary in their block size, key size and mode of operation.
- * 
+ *
  * @author Julien Niset
  *
  */
@@ -43,106 +44,143 @@ public abstract class SpeckCipher {
 	protected byte[][] key;
 	/* The initialization vector */
 	protected byte[][] iv;
-	
-	public SpeckCipher(int blockSize, int keySize) {
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param blockSize
+	 * 					- The size of the block in bits.
+	 * @param keySize
+	 * 					- The size of the key in bits.
+	 * 
+	 * @throws NoSuchAlgorithmException if the block size or key size is not supported by the Speck Cipher.
+	 */
+	public SpeckCipher(int blockSize, int keySize) throws NoSuchAlgorithmException {
+		
+		if(blockSize == 32) {
+			if(keySize != 64) {
+				throw new NoSuchAlgorithmException("Unsupported key size for block size of 32 bit.");
+			}
+		}
+		else if(blockSize == 48) {
+			if(keySize != 72 && keySize != 96) {
+				throw new NoSuchAlgorithmException("Unsupported key size for block size of 48 bit.");
+			}
+		}
+		else if(blockSize == 64) {
+			if(keySize != 96 && keySize != 128) {
+				throw new NoSuchAlgorithmException("Unsupported key size for block size of 64 bit.");
+			}
+		}
+		else if(blockSize == 96) {
+			if(keySize != 96 && keySize != 144) {
+				throw new NoSuchAlgorithmException("Unsupported key size for block size of 96 bit.");
+			}
+		}
+		else if(blockSize == 128) {  
+			if(keySize != 128 && keySize != 192 && keySize != 256) { 
+				throw new NoSuchAlgorithmException("Unsupported key size for block size of 128 bit.");
+			}
+		}
+		else {
+			throw new NoSuchAlgorithmException("Unsupported block size.");
+		}
+
 		this.blockSize = blockSize;
 		this.keySize = keySize;
-		this.key = new byte[keySize/8][8];
-		this.iv = new byte[blockSize/8][8];
+		this.key = new byte[keySize/64][8];
+		this.iv = new byte[blockSize/64][8];
+		
 	}
-	
+
 	/**
 	 * Initializes the instance with a key an IV.
-	 * 
+	 *
 	 * @param key
 	 * 				- The encryption/decryption key.
 	 * @param iv
 	 * 				- The initialization vector.
-	 * 
+	 *
 	 * @return the current instance.
-	 * 
+	 *
 	 * @throws InvalidParameterException if the key or IV size is not valid.
 	 */
 	public SpeckCipher init(byte[] key, byte[] iv) throws InvalidParameterException {
 		return this.setKey(key).setIv(iv);
 	}
-	
+
 	/**
 	 * Sets the encryption/decrytion key.
 	 * <p>
 	 * The key is split in chunks of 64 bits.
-	 * 
+	 *
 	 * @param key
 	 * 				- The key.
-	 * 
+	 *
 	 * @return the current instance.
-	 * 
-	 * @throws InvalidParameterException if the size of the provided key is not valid.
+	 *
+	 * @throws InvalidParameterException if the size of the provided key is too small.
 	 */
 	public SpeckCipher setKey(byte[] key) throws InvalidParameterException {
 
 		if(key.length*8 < this.keySize) {
 			throw new InvalidParameterException("Invalid key size.");
 		}
-		
-		int j = 0;
-		for(int i = 0; i < this.keySize/8; i+=8) {
-			System.arraycopy(key, i, this.key[j], 0, 8);
-			j++;
+
+		for(int i = 0; i < this.keySize/64; i++) {
+			System.arraycopy(key, i * 8, this.key[i], 0, 8);
 		}
 		
 		return this;
-		
+
 	}
-	
+
 	/**
 	 * Sets the initialization vector (IV).
 	 * <p>
 	 * The IV is split in chunks of 64 bits.
-	 * 
+	 *
 	 * @param iv
 	 * 				- The initialization vector.
-	 * 
+	 *
 	 * @return the current instance.
-	 * 
-	 * @throws InvalidParameterException if the size of the provided IV is not valid.
+	 *
+	 * @throws InvalidParameterException if the size of the provided IV is too small.
 	 */
 	public SpeckCipher setIv(byte[] iv) throws InvalidParameterException {
-		
+
 		if(iv.length*8 < this.blockSize) {
 			throw new InvalidParameterException("Invalid IV size.");
 		}
-		
-		int j = 0;
-		for(int i = 0; i < this.blockSize/8; i+=8) {
-			System.arraycopy(iv, i, this.iv[j], 0, 8);
-			j++;
+
+		for(int i = 0; i < this.blockSize/64; i++) {
+			System.arraycopy(iv, i*8, this.iv[i], 0, 8);
 		}
-		
+
 		return this;
-		
+
 	}
-	
+
 	/**
 	 * Encrypts data.
-	 * 
+	 *
 	 * @param plaintext
 	 * 						- The data to encrypt.
-	 * 
+	 *
 	 * @return the encrypted data.
-	 * 
+	 *
 	 * @throws IllegalStateException if the instance has not been initialized.
 	 */
 	public abstract byte[] encrypt(byte[] plaintext) throws IllegalStateException;
-	
+
 	/**
 	 * Decrypts data.
-	 * 
+	 *
 	 * @param ciphertext
 	 * 						- The data to decrypt.
-	 * 
+	 *
 	 * @return the decrypted data.
-	 * 
+	 *
 	 * @throws IllegalStateException if the instance has not been initialized.
 	 */
 	public abstract byte[] decrypt(byte[] ciphertext) throws IllegalStateException;

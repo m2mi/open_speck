@@ -42,7 +42,6 @@ public class SpeckJNI {
 		} catch (UnsatisfiedLinkError e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	/**

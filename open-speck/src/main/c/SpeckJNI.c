@@ -14,12 +14,12 @@
  * limitations under the License.
  *
  * Contributors:
- *     Julien Niset 
+ *     Julien Niset
  *     Louis-Philippe Lamoureux
  *     William Bathurst
  *     Peter Havart-Simkin
  *     Geoff Barnard
- *     Andrew Whaley    
+ *     Andrew Whaley
  */
 #include <jni.h>
 #include <stdio.h>
@@ -31,20 +31,23 @@
  * Key expansion for 32bit block size, 64bit key
 */
 JNIEXPORT jbyteArray JNICALL Java_com_m2mi_speck_jni_SpeckJNI_expandKey32_164
-  (JNIEnv *env, jobject obj, jbyteArray key) 
+  (JNIEnv *env, jobject obj, jbyteArray key)
   {
-  	int SIZE = sizeof(uint16_t) * 22;
+    int SIZE = sizeof(uint16_t) * 22;
 
-  	if((*env)->GetArrayLength(env, key) != 8) {
-  		return NULL;
-  	}
+    if((*env)->GetArrayLength(env, key) != 8) {
+      return NULL;
+    }
 
-  	jbyte * keyPtr = (*env)->GetByteArrayElements(env, key, NULL);
-  	jbyteArray result = (*env)->NewByteArray(env, SIZE);
-  	(*env)->SetByteArrayRegion(env, result, 0, SIZE, (jbyte *)speck_expand_key_32_64(*keyPtr));
-	(*env)->ReleaseByteArrayElements(env, key, keyPtr, 0);
+    jbyte * keyPtr = (*env)->GetByteArrayElements(env, key, NULL);
+    jbyte * expandedPtr = (jbyte *)speck_expand_key_32_64(*keyPtr);
+    jbyteArray result = (*env)->NewByteArray(env, SIZE);
+    (*env)->SetByteArrayRegion(env, result, 0, SIZE, expandedPtr);
+    (*env)->ReleaseByteArrayElements(env, key, keyPtr, 0);
 
-  	return result;
+    free(expandedPtr);
+
+    return result;
   }
 
 /*
@@ -53,20 +56,23 @@ JNIEXPORT jbyteArray JNICALL Java_com_m2mi_speck_jni_SpeckJNI_expandKey32_164
 JNIEXPORT jbyteArray JNICALL Java_com_m2mi_speck_jni_SpeckJNI_expandKey64_1128
   (JNIEnv *env, jobject obj, jbyteArray key1, jbyteArray key2)
   {
-  	int SIZE = sizeof(uint32_t) * 27;
+    int SIZE = sizeof(uint32_t) * 27;
 
-  	if((*env)->GetArrayLength(env, key1) != 8 && (*env)->GetArrayLength(env, key2) != 8) {
-  		return NULL;
-  	}
+    if((*env)->GetArrayLength(env, key1) != 8 && (*env)->GetArrayLength(env, key2) != 8) {
+      return NULL;
+    }
 
-  	jbyte * key1Ptr = (*env)->GetByteArrayElements(env, key1, NULL);
-  	jbyte * key2Ptr = (*env)->GetByteArrayElements(env, key2, NULL);
-  	jbyteArray result = (*env)->NewByteArray(env, SIZE);
-  	(*env)->SetByteArrayRegion(env, result, 0, SIZE, (jbyte *)speck_expand_key_64_128(*key1Ptr, *key2Ptr));
-	(*env)->ReleaseByteArrayElements(env, key1, key1Ptr, 0);
-	(*env)->ReleaseByteArrayElements(env, key2, key2Ptr, 0);
+    jbyte * key1Ptr = (*env)->GetByteArrayElements(env, key1, NULL);
+    jbyte * key2Ptr = (*env)->GetByteArrayElements(env, key2, NULL);
+    jbyte * expandedPtr = (jbyte *)speck_expand_key_64_128(*key1Ptr, *key2Ptr);
+    jbyteArray result = (*env)->NewByteArray(env, SIZE);
+    (*env)->SetByteArrayRegion(env, result, 0, SIZE, expandedPtr);
+    (*env)->ReleaseByteArrayElements(env, key1, key1Ptr, 0);
+    (*env)->ReleaseByteArrayElements(env, key2, key2Ptr, 0);
 
-  	return result;
+    free(expandedPtr);
+
+    return result;
   }
 
 /*
@@ -75,23 +81,28 @@ JNIEXPORT jbyteArray JNICALL Java_com_m2mi_speck_jni_SpeckJNI_expandKey64_1128
 JNIEXPORT jbyteArray JNICALL Java_com_m2mi_speck_jni_SpeckJNI_expandKey128_1256
   (JNIEnv *env, jobject obj, jbyteArray key1, jbyteArray key2, jbyteArray key3, jbyteArray key4)
   {
-  	int SIZE = sizeof(uint64_t) * 34;
+    int SIZE = sizeof(uint64_t) * 34;
 
-  	if((*env)->GetArrayLength(env, key1) != 8 || (*env)->GetArrayLength(env, key2) != 8 ||
-  		(*env)->GetArrayLength(env, key3) != 8 || (*env)->GetArrayLength(env, key4) != 8) {
-  		return NULL;
-  	}
+    if((*env)->GetArrayLength(env, key1) != 8 || (*env)->GetArrayLength(env, key2) != 8 ||
+      (*env)->GetArrayLength(env, key3) != 8 || (*env)->GetArrayLength(env, key4) != 8) {
+      return NULL;
+    }
 
-  	jbyte * key1Ptr = (*env)->GetByteArrayElements(env, key1, NULL);
-  	jbyte * key2Ptr = (*env)->GetByteArrayElements(env, key2, NULL);
-  	jbyte * key3Ptr = (*env)->GetByteArrayElements(env, key3, NULL);
-  	jbyte * key4Ptr = (*env)->GetByteArrayElements(env, key4, NULL);
-  	jbyteArray result = (*env)->NewByteArray(env, SIZE);
-  	(*env)->SetByteArrayRegion(env, result, 0, SIZE, (jbyte *)speck_expand_key_128_256(*key1Ptr, *key2Ptr, *key1Ptr, *key2Ptr));
-	(*env)->ReleaseByteArrayElements(env, key1, key1Ptr, 0);
-	(*env)->ReleaseByteArrayElements(env, key2, key2Ptr, 0);
+    jbyte * key1Ptr = (*env)->GetByteArrayElements(env, key1, NULL);
+    jbyte * key2Ptr = (*env)->GetByteArrayElements(env, key2, NULL);
+    jbyte * key3Ptr = (*env)->GetByteArrayElements(env, key3, NULL);
+    jbyte * key4Ptr = (*env)->GetByteArrayElements(env, key4, NULL);
+    jbyte * expandedPtr = (jbyte *)speck_expand_key_128_256(*key1Ptr, *key2Ptr, *key3Ptr, *key4Ptr);
+    jbyteArray result = (*env)->NewByteArray(env, SIZE);
+    (*env)->SetByteArrayRegion(env, result, 0, SIZE, expandedPtr);
+    (*env)->ReleaseByteArrayElements(env, key1, key1Ptr, 0);
+    (*env)->ReleaseByteArrayElements(env, key2, key2Ptr, 0);
+    (*env)->ReleaseByteArrayElements(env, key3, key3Ptr, 0);
+    (*env)->ReleaseByteArrayElements(env, key4, key4Ptr, 0);
 
-  	return result;
+    free(expandedPtr);
+
+    return result;
   }
 
 /*
@@ -103,28 +114,30 @@ JNIEXPORT jbyteArray JNICALL Java_com_m2mi_speck_jni_SpeckJNI_encryptCBC64_1128
   (JNIEnv *env, jobject obj, jbyteArray key1, jbyteArray key2, jbyteArray iv, jbyteArray plaintext)
   {
 
-	   jint length = (*env)->GetArrayLength(env, plaintext); 
+     jint length = (*env)->GetArrayLength(env, plaintext);
 
-  	 jbyte key1_buf[8];
-  	 jbyte key2_buf[8];
-  	 jbyte iv_buf[8];
-  	 jbyte plain_buf[length];
+     jbyte key1_buf[8];
+     jbyte key2_buf[8];
+     jbyte iv_buf[8];
+     jbyte plain_buf[length];
 
-  	 (*env) -> GetByteArrayRegion(env,key1,0,8,key1_buf);
-  	 (*env) -> GetByteArrayRegion(env,key2,0,8,key2_buf);
-  	 (*env) -> GetByteArrayRegion(env,iv,0,8,iv_buf);
-  	 (*env) -> GetByteArrayRegion(env,plaintext,0,length,plain_buf);
+     (*env) -> GetByteArrayRegion(env,key1,0,8,key1_buf);
+     (*env) -> GetByteArrayRegion(env,key2,0,8,key2_buf);
+     (*env) -> GetByteArrayRegion(env,iv,0,8,iv_buf);
+     (*env) -> GetByteArrayRegion(env,plaintext,0,length,plain_buf);
 
       int block_size = sizeof(uint64_t);
-      size_t blocks = length / block_size;
-	    void *ct = malloc(blocks * block_size);
+      size_t blocks = (length + block_size) / block_size;
+      void *ct = malloc(blocks * block_size);
 
-	    size_t size = speck_64_128_cbc_encrypt(*((uint64_t *)&key1_buf), *((uint64_t *)&key2_buf), *((uint64_t *)&iv_buf), &plain_buf, ct, length); 
+      size_t size = speck_64_128_cbc_encrypt(*((uint64_t *)&key1_buf), *((uint64_t *)&key2_buf), *((uint64_t *)&iv_buf), &plain_buf, ct, length);
 
       jbyteArray ciphertext = (*env)->NewByteArray(env, size);
       (*env)->SetByteArrayRegion(env,ciphertext,0,size,ct);
 
-  	  return ciphertext;
+      free(ct);
+
+      return ciphertext;
   }
 
 /*
@@ -135,7 +148,7 @@ JNIEXPORT jbyteArray JNICALL Java_com_m2mi_speck_jni_SpeckJNI_encryptCBC64_1128
 JNIEXPORT jbyteArray JNICALL Java_com_m2mi_speck_jni_SpeckJNI_decryptCBC64_1128
   (JNIEnv *env, jobject obj, jbyteArray key1, jbyteArray key2, jbyteArray iv, jbyteArray ciphertext)
   {
-     jint length = (*env)->GetArrayLength(env, ciphertext); 
+     jint length = (*env)->GetArrayLength(env, ciphertext);
 
      jbyte key1_buf[8];
      jbyte key2_buf[8];
@@ -147,13 +160,14 @@ JNIEXPORT jbyteArray JNICALL Java_com_m2mi_speck_jni_SpeckJNI_decryptCBC64_1128
      (*env) -> GetByteArrayRegion(env,iv,0,8,iv_buf);
      (*env) -> GetByteArrayRegion(env,ciphertext,0,length,cipher_buf);
 
-
       void *pt = malloc(length);
 
       size_t size = speck_64_128_cbc_decrypt(*((uint64_t *)&key1_buf), *((uint64_t *)&key2_buf), *((uint64_t *)&iv_buf), &cipher_buf, pt, length);
 
       jbyteArray plaintext = (*env)->NewByteArray(env, size);
       (*env)->SetByteArrayRegion(env,plaintext,0,size,pt);
+
+      free(pt);
 
      return plaintext;
   }
@@ -166,7 +180,7 @@ JNIEXPORT jbyteArray JNICALL Java_com_m2mi_speck_jni_SpeckJNI_decryptCBC64_1128
 JNIEXPORT jbyteArray JNICALL Java_com_m2mi_speck_jni_SpeckJNI_encryptCBC128_1256
   (JNIEnv *env, jobject obj, jbyteArray key1, jbyteArray key2, jbyteArray key3, jbyteArray key4, jbyteArray iv1, jbyteArray iv2, jbyteArray plaintext)
   {
-     jint length = (*env)->GetArrayLength(env, plaintext); 
+     jint length = (*env)->GetArrayLength(env, plaintext);
 
      jbyte key1_buf[8];
      jbyte key2_buf[8];
@@ -184,14 +198,16 @@ JNIEXPORT jbyteArray JNICALL Java_com_m2mi_speck_jni_SpeckJNI_encryptCBC128_1256
      (*env) -> GetByteArrayRegion(env,iv2,0,8,iv2_buf);
      (*env) -> GetByteArrayRegion(env,plaintext,0,length,plain_buf);
 
-      int block_size = sizeof(uint64_t);
-      size_t blocks = length / block_size;
+      int block_size = sizeof(uint64_t) * 2;
+      size_t blocks = (length + block_size) / block_size;
       void *ct = malloc(blocks * block_size);
 
-      size_t size = speck_128_256_cbc_encrypt(*((uint64_t *)&key1_buf), *((uint64_t *)&key2_buf), *((uint64_t *)&key3_buf), *((uint64_t *)&key4_buf), *((uint64_t *)&iv1_buf), *((uint64_t *)&iv2_buf), &plain_buf, ct, length); 
+      size_t size = speck_128_256_cbc_encrypt(*((uint64_t *)&key1_buf), *((uint64_t *)&key2_buf), *((uint64_t *)&key3_buf), *((uint64_t *)&key4_buf), *((uint64_t *)&iv1_buf), *((uint64_t *)&iv2_buf), &plain_buf, ct, length);
 
       jbyteArray ciphertext = (*env)->NewByteArray(env, size);
       (*env)->SetByteArrayRegion(env,ciphertext,0,size,ct);
+
+      free(ct);
 
       return ciphertext;
   }
@@ -204,7 +220,7 @@ JNIEXPORT jbyteArray JNICALL Java_com_m2mi_speck_jni_SpeckJNI_encryptCBC128_1256
 JNIEXPORT jbyteArray JNICALL Java_com_m2mi_speck_jni_SpeckJNI_decryptCBC128_1256
   (JNIEnv *env, jobject obj, jbyteArray key1, jbyteArray key2, jbyteArray key3, jbyteArray key4, jbyteArray iv1, jbyteArray iv2, jbyteArray ciphertext)
   {
-     jint length = (*env)->GetArrayLength(env, ciphertext); 
+     jint length = (*env)->GetArrayLength(env, ciphertext);
 
      jbyte key1_buf[8];
      jbyte key2_buf[8];
@@ -222,14 +238,16 @@ JNIEXPORT jbyteArray JNICALL Java_com_m2mi_speck_jni_SpeckJNI_decryptCBC128_1256
      (*env) -> GetByteArrayRegion(env,iv2,0,8,iv2_buf);
      (*env) -> GetByteArrayRegion(env,ciphertext,0,length,cipher_buf);
 
-      int block_size = sizeof(uint64_t);
-      size_t blocks = length / block_size;
-      void *pt = malloc(blocks * block_size);
+     int block_size = sizeof(uint64_t) * 2;
+     size_t blocks = (length + block_size) / block_size;
+     void *pt = malloc(blocks * block_size);
 
-      size_t size = speck_128_256_cbc_decrypt(*((uint64_t *)&key1_buf), *((uint64_t *)&key2_buf), *((uint64_t *)&key3_buf), *((uint64_t *)&key4_buf), *((uint64_t *)&iv1_buf), *((uint64_t *)&iv2_buf), &cipher_buf, pt, length); 
+     size_t size = speck_128_256_cbc_decrypt(*((uint64_t *)&key1_buf), *((uint64_t *)&key2_buf), *((uint64_t *)&key3_buf), *((uint64_t *)&key4_buf), *((uint64_t *)&iv1_buf), *((uint64_t *)&iv2_buf), &cipher_buf, pt, length);
 
-      jbyteArray plaintext = (*env)->NewByteArray(env, size);
-      (*env)->SetByteArrayRegion(env,plaintext,0,size,pt);
+     jbyteArray plaintext = (*env)->NewByteArray(env, size);
+     (*env)->SetByteArrayRegion(env,plaintext,0,size,pt);
 
-      return plaintext;
+     free(pt);
+
+     return plaintext;
   }

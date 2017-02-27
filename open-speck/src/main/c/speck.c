@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  * Contributors:
- *     Julien Niset 
+ *     Julien Niset
  *     Louis-Philippe Lamoureux
  *     William Bathurst
  *     Peter Havart-Simkin
@@ -43,9 +43,9 @@ uint16_t * speck_expand_key_32_64(uint64_t key)
     uint16_t * k = (uint16_t *) malloc(sizeof(uint16_t) * 22);
     uint64_t m = key;
     uint16_t * tk = (uint16_t *) &m;
-    
+
     k[0] = tk[0];
-    
+
     for (i=0; i<22 - 1; i++)
     {
         idx = (i % 3) + 1;
@@ -60,16 +60,16 @@ uint16_t * speck_expand_key_32_64(uint64_t key)
 uint32_t speck_encrypt_32_64(uint16_t * k, uint32_t pt)
 {
     uint16_t i;
-    
+
     uint32_t ct = pt;
     uint16_t * b = (uint16_t *) &ct;
-    
+
     for (i=0; i<22; i++)
     {
         b[1] = (RR(b[1], 7, 16) + b[0]) ^ k[i];
         b[0] = RL(b[0], 2, 16) ^ b[1];
     }
-    
+
     return ct;
 }
 
@@ -77,10 +77,10 @@ uint32_t speck_encrypt_32_64(uint16_t * k, uint32_t pt)
 uint32_t speck_decrypt_32_64(uint16_t * k, uint32_t ct)
 {
     uint16_t i;
-    
+
     uint32_t pt = ct;
     uint16_t * b = (uint16_t *) &pt;
-    
+
     for (i=22; i>0; i--)
     {
         b[0] = b[0] ^ b[1];
@@ -88,7 +88,7 @@ uint32_t speck_decrypt_32_64(uint16_t * k, uint32_t ct)
         b[1] = (b[1] ^ k[i-1]) - b[0];
         b[1] = RL(b[1], 7, 16);
     }
-    
+
     return pt;
 }
 
@@ -101,9 +101,9 @@ uint32_t * speck_expand_key_64_128(uint64_t k1, uint64_t k2)
     uint32_t tk[4];
     uint64_t * m = (uint64_t *) &tk;
     m[0] = k2; m[1] = k1;
-    
+
     k[0] = tk[0];
-    
+
     for (i=0; i<27 - 1; i++)
     {
         idx = (i % 3) + 1;
@@ -118,16 +118,16 @@ uint32_t * speck_expand_key_64_128(uint64_t k1, uint64_t k2)
 uint64_t speck_encrypt_64_128(uint32_t * k, uint64_t pt)
 {
     uint32_t i;
-    
+
     uint64_t ct = pt;
     uint32_t * b = (uint32_t *) &ct;
-    
+
     for (i=0; i<27; i++)
     {
         b[1] = (RR(b[1], 8, 32) + b[0]) ^ k[i];
         b[0] = RL(b[0], 3, 32) ^ b[1];
     }
-    
+
     return ct;
 }
 
@@ -135,10 +135,10 @@ uint64_t speck_encrypt_64_128(uint32_t * k, uint64_t pt)
 uint64_t speck_decrypt_64_128(uint32_t * k, uint64_t ct)
 {
     uint32_t i;
-    
+
     uint64_t pt = ct;
     uint32_t * b = (uint32_t *) &pt;
-    
+
     for (i=27; i>0; i--)
     {
         b[0] = b[0] ^ b[1];
@@ -146,7 +146,7 @@ uint64_t speck_decrypt_64_128(uint32_t * k, uint64_t ct)
         b[1] = (b[1] ^ k[i-1]) - b[0];
         b[1] = RL(b[1], 8, 32);
     }
-    
+
     return pt;
 }
 
@@ -161,9 +161,9 @@ uint64_t * speck_expand_key_128_256(uint64_t k1, uint64_t k2, uint64_t k3, uint6
     tk[1] = k3;
     tk[2] = k2;
     tk[3] = k1;
-    
+
     k[0] = tk[0];
-    
+
     for (i=0; i<34 - 1; i++)
     {
         idx = (i % 3) + 1;
@@ -178,20 +178,20 @@ uint64_t * speck_expand_key_128_256(uint64_t k1, uint64_t k2, uint64_t k3, uint6
 int speck_encrypt_128_256(uint64_t * k, uint64_t * pt, uint64_t * ct)
 {
     uint64_t i;
-    
+
     uint64_t b[2];
     b[0] = pt[1];
     b[1] = pt[0];
-    
+
     for (i=0; i<34; i++)
     {
         b[1] = (RR(b[1], 8, 64) + b[0]) ^ k[i];
         b[0] = RL(b[0], 3, 64) ^ b[1];
     }
-    
+
     ct[0] = b[1];
     ct[1] = b[0];
-    
+
     return 1;
 }
 
@@ -200,11 +200,11 @@ int speck_encrypt_128_256(uint64_t * k, uint64_t * pt, uint64_t * ct)
 int speck_decrypt_128_256(uint64_t * k, uint64_t * ct, uint64_t * pt)
 {
     uint64_t i;
-    
+
     uint64_t b[2];
     b[0] = ct[1];
     b[1] = ct[0];
-    
+
     for (i=34; i>0; i--)
     {
         b[0] = b[0] ^ b[1];
@@ -212,10 +212,10 @@ int speck_decrypt_128_256(uint64_t * k, uint64_t * ct, uint64_t * pt)
         b[1] = (b[1] ^ k[i-1]) - b[0];
         b[1] = RL(b[1], 8, 64);
     }
-    
+
     pt[0] = b[1];
     pt[1] = b[0];
-    
+
     return 1;
 }
 
@@ -238,13 +238,13 @@ size_t speck_64_128_cbc_encrypt(uint64_t k1, uint64_t k2, uint64_t iv, void * pl
        last = ct[i];
        i++;
     } while (i < blocks);
-    
+
     // Create last padded block
     memcpy(&last_block, &pt[i], block_size - padding_bytes);
     memset(&last_block_bytes[block_size - padding_bytes], (uint8_t) padding_bytes, padding_bytes);
     ct[i] = speck_encrypt_64_128(kx, last_block ^ last);
     i++;
-    
+
     free(kx);
     return (i * block_size);
 }
@@ -265,9 +265,9 @@ size_t speck_64_128_cbc_decrypt(uint64_t k1, uint64_t k2, uint64_t iv, void * ci
         last = ct[i];
         i++;
     } while (i < blocks);
-    
+
     free(kx);
-    
+
     // Check for padding bytes
     uint8_t * pt_bytes = (uint8_t *) plaintext;
     padding_bytes = pt_bytes[i * block_size -1];
@@ -278,7 +278,7 @@ size_t speck_64_128_cbc_decrypt(uint64_t k1, uint64_t k2, uint64_t iv, void * ci
         // Error in padding
         return 0;
     }
-    
+
     return (i * block_size - padding_bytes);
 }
 
@@ -315,16 +315,16 @@ size_t speck_128_256_cbc_encrypt(uint64_t k1, uint64_t k2, uint64_t k3, uint64_t
         pt+=2;
         i++;
     } while (i < blocks);
-    
+
     // Create last padded block
     pt = (uint64_t *) plaintext;
-    memcpy(&last_block, &pt[i], block_size - padding_bytes);
+    memcpy(&last_block, &pt[i*2], block_size - padding_bytes);
     memset(&last_block_bytes[block_size - padding_bytes], (uint8_t) padding_bytes, padding_bytes);
-    
+
     xor128(x, last_block, last);
     speck_encrypt_128_256(kx, x, ct);
     i++;
-    
+
     free(kx);
     return (i * block_size);
 }
@@ -352,9 +352,9 @@ size_t speck_128_256_cbc_decrypt(uint64_t k1, uint64_t k2, uint64_t k3, uint64_t
         pt+=2;
         i++;
     } while (i < blocks);
-    
+
     free(kx);
-    
+
     // Check for padding bytes
     uint8_t * pt_bytes = (uint8_t *) plaintext;
     padding_bytes = pt_bytes[i * block_size -1];
@@ -365,6 +365,6 @@ size_t speck_128_256_cbc_decrypt(uint64_t k1, uint64_t k2, uint64_t k3, uint64_t
         // Error in padding
         return 0;
     }
-    
+
     return (i * block_size - padding_bytes);
 }

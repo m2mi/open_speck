@@ -23,6 +23,8 @@
  */
 package com.m2mi.speck.impl;
 
+import java.security.NoSuchAlgorithmException;
+
 import com.m2mi.speck.SpeckCipher;
 import com.m2mi.speck.jni.SpeckJNI;
 
@@ -39,8 +41,8 @@ public class SpeckCBC64_128 extends SpeckCipher {
 	/* The JNI wrapper */
 	private SpeckJNI jni;
 	
-	public SpeckCBC64_128(int blockSize, int keySize) {
-		super(blockSize,keySize);
+	public SpeckCBC64_128() throws NoSuchAlgorithmException {
+		super(64,128);
 		this.jni = new SpeckJNI();
 	}
 	

@@ -23,6 +23,8 @@
  */
 package com.m2mi.speck.impl;
 
+import java.security.NoSuchAlgorithmException;
+
 import com.m2mi.speck.SpeckCipher;
 import com.m2mi.speck.jni.SpeckJNI;
 
@@ -39,8 +41,8 @@ public class SpeckCBC128_256 extends SpeckCipher {
 	/* The JNI wrapper */
 	private SpeckJNI jni;
 	
-	public SpeckCBC128_256(int blockSize, int keySize) {
-		super(blockSize,keySize);
+	public SpeckCBC128_256() throws NoSuchAlgorithmException {
+		super(128,256);
 		this.jni = new SpeckJNI();
 	}
 	
@@ -55,11 +57,12 @@ public class SpeckCBC128_256 extends SpeckCipher {
 	 * @throws IllegalStateException if the instance has not been initialized.
 	 */
 	@Override
-	public byte[] encrypt(byte[] plaintext) throws IllegalStateException {
+	public byte[] encrypt(byte[] plaintext) throws IllegalStateException { 
 		if(this.key == null || this.iv == null) {
 			throw new IllegalStateException("The instance must be initialized with a key and IV.");
-		}
-		return jni.encryptCBC128_256(this.key[0], this.key[1], this.key[2], this.key[3], this.iv[1],this.iv[2], plaintext);
+		} 
+		
+		return this.jni.encryptCBC128_256(this.key[0], this.key[1], this.key[2], this.key[3], this.iv[0],this.iv[1], plaintext);
 	}
 
 	/**
@@ -77,7 +80,7 @@ public class SpeckCBC128_256 extends SpeckCipher {
 		if(this.key == null || this.iv == null) {
 			throw new IllegalStateException("The instance must be initialized with a key and IV.");
 		}
-		return jni.decryptCBC128_256(this.key[0], this.key[1], this.key[2], this.key[3], this.iv[1],this.iv[2], ciphertext);
+		return jni.decryptCBC128_256(this.key[0], this.key[1], this.key[2], this.key[3], this.iv[0],this.iv[1], ciphertext);
 	}
 
 }

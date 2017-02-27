@@ -4,7 +4,7 @@ SOURCES = $(shell echo *.c)
 HEADERS = $(shell echo include/*.h)
 ODIR	= obj
 OBJECTS = $(patsubst %,$(ODIR)/%,$(SOURCES:.c=.o))
-RM 		= rm -f
+RM 		= rm -rf
 
 ifndef JAVA_HOME
 	TEST := $(shell which java)
@@ -15,7 +15,7 @@ endif
 
 ifeq ($(OS),Windows_NT)
     CFLAGS =
-	FLAGS =  
+	FLAGS =
 	TARGET = speck.dll
 else
     UNAME_S := $(shell uname -s)
@@ -24,13 +24,13 @@ else
 		FLAGS = -fPIC -g #-pedantic -Wall -Wextra -ggdb3
 		#FLAGS =  -g #-pedantic -Wall -Wextra -ggdb3
 		LDFLAGS = -shared
-		TARGET = libspeck.so 
+		TARGET = libspeck.so
     endif
     ifeq ($(UNAME_S),Darwin)
         CFLAGS = -I/System/Library/Frameworks/JavaVM.framework/Headers
-		FLAGS = -dynamiclib 
+		FLAGS = -dynamiclib
 		LDFLAGS = -framework JavaVM
-		TARGET = libspeck.dylib 
+		TARGET = libspeck.dylib
     endif
 endif
 
@@ -38,11 +38,12 @@ all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
 	$(CC) $(FLAGS) -o $@ $^ $(LDFLAGS)
- 
+
 $(ODIR)/%.o: %.c $(HEADERS)
+	@mkdir -p $(ODIR)
 	$(CC) $(CFLAGS) -c $< -o $@
-    
+
 .PHONY: clean
 
 clean:
-	-$(RM) $(TARGET) $(OBJECTS)
+	-$(RM) $(TARGET) $(ODIR)

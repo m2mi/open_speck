@@ -54,21 +54,21 @@ public class Speck {
 		
 		SpeckCipher cipher = null;
 		
-		if(mode == Speck.CBC_PKCS7) {
+		if(mode == Speck.CBC_PKCS7) { 
 			if(blockSize == 64) {
 				if(keySize == 128) {
-					cipher = new SpeckCBC64_128(blockSize, keySize);
+					cipher = new SpeckCBC64_128();
 				}
 				else {
-					throw new NoSuchAlgorithmException("Unsupported key size.");
+					throw new NoSuchAlgorithmException("Unsupported key size for block size of 64 bit");
 				}
 			}
-			else if(blockSize == 128) {
-				if(keySize == 256) {
-					cipher = new SpeckCBC128_256(blockSize, keySize);
+			else if(blockSize == 128) {  
+				if(keySize == 256) {  
+					cipher = new SpeckCBC128_256(); 
 				}
 				else {
-					throw new NoSuchAlgorithmException("Unsupported key size.");
+					throw new NoSuchAlgorithmException("Unsupported key size for block size of 128 bit.");
 				}
 			}
 			else {
