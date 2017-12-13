@@ -3,7 +3,6 @@
 //  Lightweight Encryption
 //
 //  Created by Andrew Whaley
-//  Copyright © 2016 Andrew Whaley. All rights reserved.
 //
 
 #ifndef speck_h
