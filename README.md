@@ -95,7 +95,7 @@ This project relies on having Maven, Java, C and Make available for compiling an
 
 ## Contribute
 
-Contact us at info@m2mi.com.
+Contact us at william.bathurst@m2mi.com.
 
 ## License
 
